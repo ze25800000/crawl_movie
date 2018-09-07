@@ -29,7 +29,13 @@ func (c *CrawlMovieController) CrawlMovie() {
 	movieInfo.Movie_grade = models.GetMovieGrade(sMovieHtml)
 	movieInfo.Movie_span = models.GetMovieRunningTime(sMovieHtml)
 
-	id, _ := models.AddMovie(&movieInfo)
+	//id, _ := models.AddMovie(&movieInfo)
+	models.ConnectRedis("127.0.0.1:6379")
+	urls := models.GetMovieUrls(sMovieHtml)
 
-	c.Ctx.WriteString(fmt.Sprintf("%v", id))
+	for _, url := range urls {
+		models.PutinQueue(url)
+	}
+
+	c.Ctx.WriteString(fmt.Sprintf("%v", urls))
 }
