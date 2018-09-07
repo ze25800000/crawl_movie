@@ -44,6 +44,11 @@ func GetMovieDirector(movieHtml string) string {
 	}
 	reg := regexp.MustCompile(`<a.*rel="v:directedBy">(.*)</a>`)
 	result := reg.FindAllStringSubmatch(movieHtml, -1)
+
+	if len(result) == 0 {
+		return ""
+	}
+
 	return string(result[0][1])
 }
 func GetMovieName(movieHtml string) string {
@@ -52,12 +57,22 @@ func GetMovieName(movieHtml string) string {
 	}
 	reg := regexp.MustCompile(`<span\s*property="v:itemreviewed">(.*)</span>`)
 	result := reg.FindAllStringSubmatch(movieHtml, -1)
+
+	if len(result) == 0 {
+		return ""
+	}
+
 	return string(result[0][1])
 }
 
 func GetMovieMainCharactors(movieHtml string) string {
 	reg := regexp.MustCompile(`<a.*?rel="v:starring">(.*?)</a>`)
 	result := reg.FindAllStringSubmatch(movieHtml, -1)
+
+	if len(result) == 0 {
+		return ""
+	}
+
 	mainCaracters := ""
 	for _, v := range result {
 		mainCaracters += v[1] + "/"
