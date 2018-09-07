@@ -19,7 +19,7 @@ func (c *CrawlMovieController) CrawlMovie() {
 	//连接redis
 	models.ConnectRedis("127.0.0.1:6379")
 	//爬虫入口
-	sUrl := `https://movie.douban.com/subject/26336252/?from=showing`
+	sUrl := `https://movie.douban.com`
 	models.PutinQueue(sUrl)
 
 	for {

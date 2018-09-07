@@ -35,6 +35,7 @@ func init() {
 	db = orm.NewOrm()
 }
 func AddMovie(movie_info *MovieInfo) (int64, error) {
+	movie_info.Id = 0
 	id, err := db.Insert(movie_info)
 	return id, err
 }
@@ -128,7 +129,7 @@ func GetMovieRunningTime(movieHtml string) string {
 }
 
 func GetMovieUrls(movieHtml string) []string {
-	reg := regexp.MustCompile(`<a.*?href="(https://movie.douban.com/.*?)"`)
+	reg := regexp.MustCompile(`<a.*?href="(https://movie.douban.com/subject.*?)"`)
 	result := reg.FindAllStringSubmatch(movieHtml, -1)
 
 	var movieSets []string
